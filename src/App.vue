@@ -10,18 +10,19 @@
       <v-col cols="1" class="ma-2"><v-btn min-width="40px" color="error"><span class="material-icons">clear</span></v-btn></v-col>
     </v-row>
     </v-container>
+    <TaskList/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// import HelloWorld from './components/HelloWorld.vue'
+import TaskList from './components/TaskList.vue'
 
 export default defineComponent({
   name: 'App',
 
   components: {
-
+    TaskList,
   },
 
   data () {
