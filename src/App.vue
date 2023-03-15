@@ -3,6 +3,13 @@
     <v-toolbar color="primary-lighten-3" class="flex text-center" dark>
       <v-toolbar-title class="text-white text-h5 font-weight-regular"> <span class="material-icons">checklist</span> <span>TASK MANAGER</span></v-toolbar-title>
     </v-toolbar>
+    <v-container class="mt-16">
+    <v-row>
+      <v-col cols="1" class="ma-2"><v-btn min-width="40px" color="success"><span class="material-icons">add</span></v-btn></v-col>
+      <v-col cols="1" class="ma-2"><v-btn min-width="40px" color="warning"><span class="material-icons">edit</span></v-btn></v-col>
+      <v-col cols="1" class="ma-2"><v-btn min-width="40px" color="error"><span class="material-icons">clear</span></v-btn></v-col>
+    </v-row>
+    </v-container>
   </v-app>
 </template>
 
