@@ -8,11 +8,11 @@ import { createVuetify, ThemeDefinition } from 'vuetify'
 const myCustomLightTheme: ThemeDefinition = {
     dark: false,
     colors: {
-        background: '#E0F7FA',
+        background: '#FFFFFF',
         surface: '#FFFFFF',
-        primary: '#00BCD4',
-        'primary-darken-1': '#00ACC1',
-        'primary-lighten-1': '#26C6DA',
+        primary: '#03A9F4',
+        'primary-darken-3': '#0277BD',
+        'primary-lighten-3':'#81D4FA',
         error: '#FF8A80',
         info: '#82B1FF',
         success: '#B9F6CA',

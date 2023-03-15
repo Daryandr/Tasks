@@ -1,8 +1,6 @@
 <template>
   <v-app>
-    <v-main>
 
-    </v-main>
   </v-app>
 </template>
 
@@ -24,3 +22,12 @@ export default defineComponent({
   },
 })
 </script>
+<style lang="less">
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+.v-application{
+  font-family: 'Quicksand', sans-serif !important;
+  .text-h1,.text-h2,.text-h3,.text-h4,.text-h5,.text-h6{
+    font-family: 'Quicksand', sans-serif !important;
+  }
+}
+</style>
