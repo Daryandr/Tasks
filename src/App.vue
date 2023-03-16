@@ -33,11 +33,11 @@ export default defineComponent({
 })
 </script>
 <style lang="less">
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 .v-application{
-  font-family: 'Quicksand', sans-serif !important;
+  font-family: 'Montserrat', sans-serif !important;
   .text-h1,.text-h2,.text-h3,.text-h4,.text-h5,.text-h6{
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
   }
 }
 </style>
