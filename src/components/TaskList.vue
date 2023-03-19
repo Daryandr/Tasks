@@ -11,12 +11,12 @@
       <div v-for="(check,index) in task.checkList.slice(0,3)" :key="index">
         <v-checkbox class="mb-n5" v-model="check.checked" disabled :label="check.name"></v-checkbox>
       </div>
-      <span class="ml-3 text-grey" v-if="task.checkList.length>3">...
+      <v-btn variant="plain" size="x-small" class="mt-n2 text-grey" v-if="task.checkList.length>3">...
         <v-tooltip activator="parent" location="end">
           <div v-for="(check,index) in task.checkList.slice(3)" :key="index">
-            <v-checkbox class="mb-n5" v-model="check.checked" disabled :label="check.name"></v-checkbox>
+            <v-checkbox class="mb-n8 text-white" v-model="check.checked" readonly :label="check.name"></v-checkbox>
           </div>
-        </v-tooltip></span>
+        </v-tooltip></v-btn>
     </v-col>
   </v-row>
   </div>
@@ -73,6 +73,14 @@ export default {
             },
             {
               name:"check3",
+              checked:true
+            },
+            {
+              name:"check4",
+              checked:true
+            },
+            {
+              name:"check4",
               checked:true
             },
             {
