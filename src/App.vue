@@ -11,23 +11,38 @@
     </v-row>
     </v-container>
     <TaskList/>
+    {{characters.results}}
   </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import TaskList from './components/TaskList.vue'
+import gql from 'graphql-tag'
 
 export default defineComponent({
   name: 'App',
-
+  apollo: {
+    characters: gql`
+  query Characters {
+    characters {
+      results {
+        name
+      }
+    }
+  }
+`,
+  },
   components: {
     TaskList,
   },
 
   data () {
     return {
-
+      characters: {
+      results:[
+        {name: ''}
+      ]}
     }
   },
 })
