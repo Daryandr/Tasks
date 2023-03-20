@@ -1,10 +1,10 @@
 {
-  "name": "Untitled GraphQL Schema",
-  "schemaPath": "./path/to/schema.graphql",
+  "name": "Tasks GraphQL Schema",
+  "schemaPath": "./src/graphql/schema.graphql",
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://url/to/the/graphql/api",
+        "url": "http://localhost:8080/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
