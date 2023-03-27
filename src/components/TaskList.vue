@@ -8,12 +8,12 @@
   <v-row>
     <v-col class="border mb-3" cols="3">{{task.title}}</v-col>
     <v-col class="border mb-3" cols="9">
-      <div v-for="(check,index) in task.checkList.slice(0,3)" :key="index">
+      <div v-for="(check,index) in task.checklist.slice(0,3)" :key="index">
         <v-checkbox class="mb-n5" v-model="check.checked" disabled :label="check.name"></v-checkbox>
       </div>
-      <v-btn variant="plain" size="x-small" class="mt-n2 text-grey" v-if="task.checkList.length>3">...
+      <v-btn variant="plain" size="x-small" class="mt-n2 text-grey" v-if="task.checklist.length>3">...
         <v-tooltip activator="parent" location="end">
-          <div v-for="(check,index) in task.checkList.slice(3)" :key="index">
+          <div v-for="(check,index) in task.checklist.slice(3)" :key="index">
             <v-checkbox class="mb-n8 text-white" v-model="check.checked" readonly :label="check.name"></v-checkbox>
           </div>
         </v-tooltip></v-btn>
@@ -26,69 +26,17 @@
 <script>
 export default {
   name: "TaskList",
+  beforeCreate() {
+    this.$store.dispatch('fetchTasks');
+  },
   data () {
     return {
-      tasks:[
-        {title:"task1",
-          checkList:[{
-            name:"check1",
-            checked:false
-          },
-            {
-              name:"check2",
-              checked:true
-            }]
-        },
-        {title:"task2",
-          checkList:[{
-            name:"check1",
-            checked:false
-          },
-            {
-              name:"check2",
-              checked:true
-            },
-            {
-              name:"check3",
-              checked:true
-            },
-            {
-              name:"check4",
-              checked:false
-            }
-            ,
-            {
-              name:"check5",
-              checked:false
-            }]
-        },
-        {title:"task2",
-          checkList:[{
-            name:"check1",
-            checked:false
-          },
-            {
-              name:"check2",
-              checked:true
-            },
-            {
-              name:"check3",
-              checked:true
-            },
-            {
-              name:"check4",
-              checked:true
-            },
-            {
-              name:"check4",
-              checked:true
-            },
-            {
-              name:"check4",
-              checked:true
-            }]
-        }
-      ]
+
+    }
+  },
+  computed:{
+    tasks(){
+     return this.$store.getters.allTasks
     }
   },
 }
