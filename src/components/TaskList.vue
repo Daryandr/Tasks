@@ -5,9 +5,9 @@
     <v-col class="border mb-3" cols="9">Задачи</v-col>
   </v-row>
   <div v-for="(task,index) in tasks" :key="index">
-  <v-row>
-    <v-col class="border mb-3" cols="3">{{task.title}}</v-col>
-    <v-col class="border mb-3" cols="9">
+  <v-row @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''" class="mb-3">
+    <v-col class="border" cols="3">{{task.title}}</v-col>
+    <v-col class="border" cols="9">
       <div v-for="(check,index) in task.checklist.slice(0,3)" :key="index">
         <v-checkbox class="mb-n5" v-model="check.checked" disabled :label="check.name"></v-checkbox>
       </div>
@@ -31,7 +31,7 @@ export default {
   },
   data () {
     return {
-
+      isActive: 0
     }
   },
   computed:{
