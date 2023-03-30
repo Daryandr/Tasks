@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const Tasks = gql`query Query {
+export const TASKS = gql`query Query {
     tasklist {
         tasks {
             title
