@@ -19,13 +19,25 @@ type Check{
     name:String
     checked:Boolean
 }
+type Mutation{
+    deleteTask(taskId: Int!):String,
+    editTask(taskId: Int!,task: String!):String,
+    addTask(task: String!):String,
+}
 `;
 
 const resolvers = {
-    Query: {},
-    Check:{},
-    Task:{},
-    TaskList:{}
+    Mutation: {
+        deleteTask: () => {
+            return `Task deleted`
+        },
+        editTask: () => {
+            return `Task edited`
+        },
+        addTask: () => {
+            return `Task added`
+        }
+    }
 };
 
 
@@ -39,7 +51,7 @@ const mocks = {
         checklist: [...new Array(casual.integer(1, 10))]
     }),
     TaskList: () => ({
-        tasks: [...new Array(casual.integer(1, 10))]
+        tasks: [...new Array(casual.integer(5, 10))]
     }),
 };
 
@@ -48,6 +60,7 @@ const server = new ApolloServer({
     schema: addMocksToSchema({
         schema: makeExecutableSchema({ typeDefs, resolvers }),
         mocks,
+        preserveResolvers: true
     }),
 });
 
