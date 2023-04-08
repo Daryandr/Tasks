@@ -19,19 +19,29 @@ type Check{
     name:String
     checked:Boolean
 }
+input inpTask {
+    title:String
+    checklist:[inpCheck]
+}
+input inpCheck{
+    name:String
+    checked:Boolean
+}
 type Mutation{
     deleteTask(taskId: Int!):String,
-    editTask(taskId: Int!,task: String!):String,
-    addTask(task: String!):String,
+    editTask(taskId: Int!,task: inpTask!):String,
+    addTask(task: inpTask!):String,
 }
 `;
 
 const resolvers = {
     Mutation: {
-        deleteTask: () => {
+        deleteTask: (i) => {
+            console.log("Deleted task with index ",i)
             return `Task deleted`
         },
-        editTask: () => {
+        editTask: (i,o) => {
+            console.log("Task with index ",i," edited to ",o)
             return `Task edited`
         },
         addTask: () => {
