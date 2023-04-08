@@ -56,12 +56,14 @@ export default {
     ]),
     del(){
       this.delTask(this.isActive);
+      if(this.isActive===this.tasks.length-1)
+        this.isActive--;
     },
-    add(){
-      this.addTask(this.isActive);
+    add(taskToAdd){
+      this.addTask(taskToAdd);
     },
-    edit(){
-      this.editTask(this.isActive);
+    edit(editedTask){
+      this.editTask({idx: this.isActive, task: editedTask});
     }
   }
 }
