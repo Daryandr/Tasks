@@ -36,15 +36,16 @@ type Mutation{
 
 const resolvers = {
     Mutation: {
-        deleteTask: (i) => {
-            console.log("Deleted task with index ",i)
+        deleteTask: (o) => {
+            console.log("Deleted task with index ",o.taskId)
             return `Task deleted`
         },
-        editTask: (i,o) => {
-            console.log("Task with index ",i," edited to ",o)
+        editTask: (o) => {
+            console.log("Task with index ",o.taskId," edited to ",o.task)
             return `Task edited`
         },
-        addTask: () => {
+        addTask: (o) => {
+            console.log("Task added ",o.task)
             return `Task added`
         }
     }
