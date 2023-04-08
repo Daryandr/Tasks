@@ -2,10 +2,22 @@ import { createStore } from 'vuex'
 import {apolloClient} from '@/client/ApolloClient'
 import { TASKS } from '@/graphql/tasks'
 import {DEL_TASK} from "@/graphql/delete_task";
+import {EDIT_TASK} from "@/graphql/edit_task";
+import {ADD_TASK} from "@/graphql/add_task";
+
+interface Task{
+  title:string,
+  checklist:[Check]
+}
+
+interface Check{
+  name:string,
+  checked:boolean
+}
 
 export default createStore({
   state: {
-    tasks: []
+    tasks: [] as Task[]
   },
   getters: {
     allTasks(state){
@@ -16,7 +28,7 @@ export default createStore({
     }
   },
   mutations: {
-    setTasks(state, tasklist) {
+    setTasks(state, tasklist: Task[]) {
       state.tasks = tasklist;
     },
     delTask(state,index:number){
