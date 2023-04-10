@@ -2,15 +2,16 @@
 <v-container class="mt-16">
   <v-sheet style="position:sticky !important; top: 0 !important; z-index: 10 !important;">
   <v-row class="bg-white">
-    <v-col cols="1" class="mx-3"><v-btn min-width="40px" color="success" @click="add"><span class="material-icons">add</span></v-btn></v-col>
-    <v-col cols="1" class="mx-3"><v-btn min-width="40px" color="warning" @click="edit"><span class="material-icons">edit</span></v-btn></v-col>
-    <v-col cols="1" class="mx-3"><v-btn min-width="40px" color="error" @click="del"><span class="material-icons">clear</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="success"><span class="material-icons">add</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="warning" @click="modal = true" :disabled="tasks.length===0"><span class="material-icons">edit</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="error" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
   </v-row>
   <v-row class="my-3 bg-white">
     <v-col class="border" cols="3">Задание</v-col>
     <v-col class="border" cols="9">Задачи</v-col>
   </v-row>
   </v-sheet>
+  <EditModal :idx="isActive" :visible="modal" @close="modal=false" @edited="edit"></EditModal>
   <div v-for="(task,index) in tasks" :key="index">
   <v-row @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''" class="mb-3">
     <v-col class="border" cols="3">{{task.title}}</v-col>
@@ -32,15 +33,20 @@
 
 <script>
 import {mapActions} from "vuex";
+import EditModal from './EditModal'
 
 export default {
   name: "TaskList",
+  components: {
+    EditModal,
+  },
   async beforeCreate() {
     this.$store.dispatch('fetchTasks');
   },
   data () {
     return {
-      isActive: 0
+      isActive: 0,
+      modal: false,
     }
   },
   computed:{
