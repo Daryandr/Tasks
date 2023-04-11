@@ -44,7 +44,7 @@ const resolvers = {
             console.log("Task with index ",o.taskId," edited to ",o.task)
             return `Task edited`
         },
-        addTask: (o) => {
+        addTask: (_,o) => {
             console.log("Task added ",o.task)
             return `Task added`
         }

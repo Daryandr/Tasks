@@ -34,8 +34,8 @@ export default createStore({
     delTask(state,index:number){
       state.tasks.splice(index,1);
     },
-    addTask(state,task){
-      state.tasks.push(task);
+    addTask(state,task:Task){
+      state.tasks.unshift(task);
     },
     editTask(state,payload){
       state.tasks.splice(payload.idx, 1, payload.task);

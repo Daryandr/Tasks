@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="show" width="30rem" persistent>
-    <vue-resizable minWidth="370" dragSelector="#toDrag" :disableAttributes="['h']">
+    <vue-resizable :minWidth="370" :dragSelector="'#toDrag'" :disableAttributes="['h']">
     <v-card class="pa-2">
       <v-card-title class="d-flex justify-space-between" id="toDrag">
         <span class="text-h6">Редактирование задания</span>
@@ -100,6 +100,7 @@ export default {
     add(){
       const table = this.$refs.checkTable.$el;
       this.task.checklist.push({name:'',checked:false});
+      this.isActive = this.task.checklist.length-1;
       setTimeout(() => table.scrollTop = table.scrollHeight, 1)
     }
   }

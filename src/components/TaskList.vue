@@ -2,7 +2,7 @@
 <v-container class="mt-16">
   <v-sheet style="position:sticky !important; top: 0 !important; z-index: 10 !important;">
   <v-row class="bg-white">
-    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="success"><span class="material-icons">add</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="success" @click="addModal = true"><span class="material-icons">add</span></v-btn></v-col>
     <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="warning" @click="modal = true" :disabled="tasks.length===0"><span class="material-icons">edit</span></v-btn></v-col>
     <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="error" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
   </v-row>
@@ -12,6 +12,7 @@
   </v-row>
   </v-sheet>
   <EditModal :idx="isActive" :visible="modal" @close="modal=false" @edited="edit"></EditModal>
+  <EditModal :visible="addModal" @close="addModal=false" @edited="add"></EditModal>
   <div v-for="(task,index) in tasks" :key="index">
   <v-row @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''" class="mb-3">
     <v-col class="border" cols="3">{{task.title}}</v-col>
@@ -47,6 +48,7 @@ export default {
     return {
       isActive: 0,
       modal: false,
+      addModal: false,
     }
   },
   computed:{
@@ -67,6 +69,7 @@ export default {
     },
     add(taskToAdd){
       this.addTask(taskToAdd);
+      this.isActive=0;
     },
     edit(editedTask){
       this.editTask({idx: this.isActive, task: editedTask});
