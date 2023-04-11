@@ -2,9 +2,9 @@
 <v-container class="mt-16">
   <v-sheet style="position:sticky !important; top: 0 !important; z-index: 10 !important;">
   <v-row class="bg-white">
-    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="success" @click="addModal = true"><span class="material-icons">add</span></v-btn></v-col>
-    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="warning" @click="modal = true" :disabled="tasks.length===0"><span class="material-icons">edit</span></v-btn></v-col>
-    <v-col cols="1" class="mx-1"><v-btn min-width="40px" color="error" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="success" @click="addModal = true"><span class="material-icons">add</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="warning" @click="modal = true" :disabled="tasks.length===0"><span class="material-icons">edit</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="error" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
   </v-row>
   <v-row class="my-3 bg-white">
     <v-col class="border" cols="3">Задание</v-col>

@@ -24,7 +24,7 @@
         <tbody v-for="(check,index) in task.checklist" :key="index">
         <tr @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''">
           <td>
-            <v-checkbox-btn v-model="check.checked"></v-checkbox-btn>
+            <v-checkbox-btn color="primary" v-model="check.checked"></v-checkbox-btn>
           </td>
           <td class="pl-0">
             <v-text-field v-model="check.name" variant="underlined" clearable :rules="[v => !!v || 'Введите название']"></v-text-field>
@@ -81,17 +81,21 @@ export default {
     }
   },
   methods:{
-    cancel(){
+    clear(){
       if(this.taskData)
         this.task = JSON.parse(JSON.stringify(this.taskData));
       else this.task =  {title:'',checklist:[]}
+    },
+    cancel(){
+      this.clear();
       this.show = false;
     },
     async submit(){
       const valid = await this.$refs.editForm.validate().then(result => result.valid)
       if(valid){
-      this.$emit('edited',this.task)
-      this.show = false;
+        this.$emit('edited',this.task);
+        this.clear();
+        this.show = false;
       }
     },
     del(){
