@@ -43,23 +43,40 @@ export default createStore({
   },
   actions: {
     async fetchTasks({ commit }){
-      const response = await apolloClient.query({query:TASKS});
-      commit('setTasks', [...response.data.tasklist.tasks]);
+      try{
+        const response = await apolloClient.query({query:TASKS});
+        commit('setTasks', [...response.data.tasklist.tasks]);
+      }
+      catch (err){
+        console.log(err);
+      }
     },
     async delTask({commit},payload){
-      const response = await apolloClient.mutate({mutation: DEL_TASK,variables: {taskId: payload}});
-      if(response.data.deleteTask=="Task deleted")
-        commit('delTask',payload);
+      try{
+        await apolloClient.mutate({mutation: DEL_TASK,variables: {taskId: payload}});
+      }
+      catch (err){
+        console.log(err);
+      }
+      commit('delTask',payload);
     },
     async editTask({commit},payload){
-      const response = await apolloClient.mutate({mutation: EDIT_TASK,variables: {taskId: payload.idx, task: payload.task}});
-      if(response.data.editTask=="Task edited")
-       commit('editTask',payload);
+      try{
+        await apolloClient.mutate({mutation: EDIT_TASK,variables: {taskId: payload.idx, task: payload.task}});
+      }
+      catch (err){
+        console.log(err);
+      }
+      commit('editTask',payload);
     },
     async addTask({commit},payload){
-      const response = await apolloClient.mutate({mutation: ADD_TASK,variables: {task: payload}});
-      if(response.data.editTask=="Task added")
-        commit('addTask',payload);
+      try{
+        await apolloClient.mutate({mutation: ADD_TASK,variables: {task: payload}});
+      }
+      catch (err){
+        console.log(err);
+      }
+      commit('addTask',payload);
     }
   },
   modules: {
