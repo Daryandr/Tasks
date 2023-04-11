@@ -1,10 +1,12 @@
 <template>
   <v-dialog v-model="show" width="30rem" persistent>
+    <vue-resizable minWidth="370" dragSelector="#toDrag" :disableAttributes="['h']">
     <v-card class="pa-2">
-      <v-card-title class="d-flex justify-space-between">
-        <span class="text-h5">Редактирование задания</span>
+      <v-card-title class="d-flex justify-space-between" id="toDrag">
+        <span class="text-h6">Редактирование задания</span>
         <v-btn class="ml-2" size="small" @click="cancel" variant="plain" icon="mdi-close"></v-btn>
       </v-card-title>
+      <v-divider></v-divider>
       <v-form @submit.prevent="submit" ref="editForm" lazy-validation>
       <v-card-text>
         <span>Задание</span>
@@ -40,12 +42,16 @@
       </v-card-actions>
       </v-form>
     </v-card>
+    </vue-resizable>
   </v-dialog>
 </template>
 
 <script>
+import VueResizable from 'vue-resizable'
+
 export default {
   name: "EditModal",
+  components: {VueResizable},
   props: ['visible','idx'],
   data () {
     return {
