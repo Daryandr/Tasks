@@ -4,15 +4,15 @@
   <v-row class="bg-white">
     <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="success" @click="addModal = true"><span class="material-icons">add</span></v-btn></v-col>
     <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="warning" @click="modal = true" :disabled="tasks.length===0"><span class="material-icons">edit</span></v-btn></v-col>
-    <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="error" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
+    <v-col cols="1" class="mx-1"><v-btn variant="flat" min-width="40px" color="error" :loading="btnLoading" @click="del" :disabled="tasks.length===0"><span class="material-icons">clear</span></v-btn></v-col>
   </v-row>
   <v-row class="my-3 bg-white">
     <v-col class="border" cols="3">Задание</v-col>
     <v-col class="border" cols="9">Задачи</v-col>
   </v-row>
   </v-sheet>
-  <EditModal :idx="isActive" :visible="modal" @close="modal=false" @edited="edit"></EditModal>
-  <EditModal :visible="addModal" @close="addModal=false" @edited="add"></EditModal>
+  <EditModal v-if="modal" :idx="isActive" :visible="modal" @close="modal=false" @edited="edit"></EditModal>
+  <EditModal v-if="addModal" :visible="addModal" @close="addModal=false" @edited="add"></EditModal>
   <div v-for="(task,index) in tasks" :key="index">
   <v-row @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''" class="mb-3">
     <v-col class="border" cols="3">{{task.title}}</v-col>
@@ -41,7 +41,7 @@ export default {
   components: {
     EditModal,
   },
-  async beforeCreate() {
+  beforeCreate() {
     this.$store.dispatch('fetchTasks');
   },
   data () {
@@ -49,6 +49,7 @@ export default {
       isActive: 0,
       modal: false,
       addModal: false,
+      btnLoading: false
     }
   },
   computed:{
@@ -62,17 +63,21 @@ export default {
     'addTask',
     'editTask'
     ]),
-    del(){
-      this.delTask(this.isActive);
+    async del(){
+      this.btnLoading=true;
+      await this.delTask(this.isActive);
       if(this.isActive===this.tasks.length-1)
         this.isActive--;
+      this.btnLoading=false;
     },
-    add(taskToAdd){
-      this.addTask(taskToAdd);
+    async add(taskToAdd){
+      await this.addTask(taskToAdd);
       this.isActive=0;
+      this.addModal=false;
     },
-    edit(editedTask){
-      this.editTask({idx: this.isActive, task: editedTask});
+    async edit(editedTask){
+      await this.editTask({idx: this.isActive, task: editedTask});
+      this.modal=false;
     }
   }
 }

@@ -38,7 +38,7 @@
         <v-btn min-width="40" variant="tonal"><v-icon icon="mdi-undo"></v-icon></v-btn>
         <v-btn min-width="40" class="mr-10" variant="tonal"><v-icon icon="mdi-redo"></v-icon></v-btn>
         <v-btn color="grey" @click="cancel">Отмена</v-btn>
-        <v-btn color="primary" type="submit">Сохранить</v-btn>
+        <v-btn color="primary" type="submit" :loading="loading">Сохранить</v-btn>
       </v-card-actions>
       </v-form>
     </v-card>
@@ -53,10 +53,15 @@ export default {
   name: "EditModal",
   components: {VueResizable},
   props: ['visible','idx'],
+  created() {
+    if(this.taskData)
+      this.task = JSON.parse(JSON.stringify(this.taskData));
+  },
   data () {
     return {
       task: {title:'',checklist:[]},
-      isActive: 0
+      isActive: 0,
+      loading: false
     }
   },
   computed: {
@@ -74,28 +79,15 @@ export default {
       return this.$store.getters.getTask(this.idx)
     }
   },
-  watch: {
-    taskData (val) {
-      if(val)
-        this.task = JSON.parse(JSON.stringify(val));
-    }
-  },
   methods:{
-    clear(){
-      if(this.taskData)
-        this.task = JSON.parse(JSON.stringify(this.taskData));
-      else this.task =  {title:'',checklist:[]}
-    },
     cancel(){
-      this.clear();
       this.show = false;
     },
     async submit(){
       const valid = await this.$refs.editForm.validate().then(result => result.valid)
       if(valid){
+        this.loading = true;
         this.$emit('edited',this.task);
-        this.clear();
-        this.show = false;
       }
     },
     del(){
