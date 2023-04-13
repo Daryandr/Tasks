@@ -3,7 +3,7 @@
     <vue-resizable :minWidth="370" :dragSelector="'#toDrag'" :disableAttributes="['h']">
     <v-card class="pa-2">
       <v-card-title class="d-flex justify-space-between" id="toDrag">
-        <span class="text-h6">Редактирование задания</span>
+        <span class="text-h6">{{ header }}</span>
         <v-btn class="ml-2" size="small" @click="cancel" variant="plain" icon="mdi-close"></v-btn>
       </v-card-title>
       <v-divider></v-divider>
@@ -43,16 +43,21 @@
       </v-form>
     </v-card>
     </vue-resizable>
+    <ConfirmModal ref="confirm" />
   </v-dialog>
 </template>
 
 <script>
-import VueResizable from 'vue-resizable'
+import VueResizable from 'vue-resizable';
+import ConfirmModal from "@/components/ConfirmModal";
 
 export default {
   name: "EditModal",
-  components: {VueResizable},
-  props: ['visible','idx'],
+  components: {
+    VueResizable,
+    ConfirmModal
+  },
+  props: ['visible','idx','header'],
   created() {
     if(this.taskData)
       this.task = JSON.parse(JSON.stringify(this.taskData));
@@ -80,8 +85,9 @@ export default {
     }
   },
   methods:{
-    cancel(){
-      this.show = false;
+    async cancel(){
+      if (await this.$refs.confirm.open(`Внесенные изменения не сохранятся.<br> Вы точно хотите отменить ${this.header.toLowerCase()}?`))
+        this.show = false;
     },
     async submit(){
       const valid = await this.$refs.editForm.validate().then(result => result.valid)

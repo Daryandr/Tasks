@@ -11,8 +11,9 @@
     <v-col class="border" cols="9">Задачи</v-col>
   </v-row>
   </v-sheet>
-  <EditModal v-if="modal" :idx="isActive" :visible="modal" @close="modal=false" @edited="edit"></EditModal>
-  <EditModal v-if="addModal" :visible="addModal" @close="addModal=false" @edited="add"></EditModal>
+  <ConfirmModal ref="confirm" />
+  <EditModal v-if="modal" :idx="isActive" :visible="modal" :header="'Редактирование задания'" @close="modal=false" @edited="edit"></EditModal>
+  <EditModal v-if="addModal" :visible="addModal" :header="'Добавление задания'" @close="addModal=false" @edited="add"></EditModal>
   <div v-for="(task,index) in tasks" :key="index">
   <v-row @click="isActive=index" :class="isActive===index ? 'bg-grey-lighten-4':''" class="mb-3">
     <v-col class="border" cols="3">{{task.title}}</v-col>
@@ -34,12 +35,14 @@
 
 <script>
 import {mapActions} from "vuex";
-import EditModal from './EditModal'
+import EditModal from './EditModal';
+import ConfirmModal from "@/components/ConfirmModal";
 
 export default {
   name: "TaskList",
   components: {
     EditModal,
+    ConfirmModal
   },
   beforeCreate() {
     this.$store.dispatch('fetchTasks');
@@ -64,11 +67,14 @@ export default {
     'editTask'
     ]),
     async del(){
-      this.btnLoading=true;
-      await this.delTask(this.isActive);
-      if(this.isActive===this.tasks.length-1)
-        this.isActive--;
-      this.btnLoading=false;
+      if (await this.$refs.confirm.open(`Вы точно хотите удалить задание "${this.tasks[this.isActive].title}"?`)){
+        this.btnLoading=true;
+        await this.delTask(this.isActive);
+        if(this.isActive===this.tasks.length-1)
+          this.isActive--;
+        this.btnLoading=false;
+      }
+
     },
     async add(taskToAdd){
       await this.addTask(taskToAdd);
