@@ -35,8 +35,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn min-width="40" variant="tonal"><v-icon icon="mdi-undo"></v-icon></v-btn>
-        <v-btn min-width="40" class="mr-10" variant="tonal"><v-icon icon="mdi-redo"></v-icon></v-btn>
+        <v-btn min-width="40" variant="tonal" @click="undo" :disabled="canUndo"><v-icon icon="mdi-undo"></v-icon></v-btn>
+        <v-btn min-width="40" class="mr-10" variant="tonal" @click="redo" :disabled="canRedo"><v-icon icon="mdi-redo"></v-icon></v-btn>
         <v-btn color="grey" @click="cancel">Отмена</v-btn>
         <v-btn color="primary" type="submit" :loading="loading">Сохранить</v-btn>
       </v-card-actions>
@@ -61,12 +61,16 @@ export default {
   created() {
     if(this.taskData)
       this.task = JSON.parse(JSON.stringify(this.taskData));
+      setTimeout(() => this.canUndo = true, 1)
   },
   data () {
     return {
       task: {title:'',checklist:[]},
       isActive: 0,
-      loading: false
+      loading: false,
+      snapshot: {title:'',checklist:[]},
+      canUndo: true,
+      canRedo: true
     }
   },
   computed: {
@@ -82,6 +86,16 @@ export default {
     },
     taskData(){
       return this.$store.getters.getTask(this.idx)
+    },
+    clonedTask(){
+      return JSON.parse(JSON.stringify(this.task))
+    }
+  },
+  watch:{
+    clonedTask: function (newVal,oldVal){
+      this.snapshot = oldVal;
+      this.canUndo = false;
+      this.canRedo = true;
     }
   },
   methods:{
@@ -104,6 +118,15 @@ export default {
       this.task.checklist.push({name:'',checked:false});
       this.isActive = this.task.checklist.length-1;
       setTimeout(() => table.scrollTop = table.scrollHeight, 1)
+    },
+    undo(){
+      this.task = this.snapshot;
+      setTimeout(() => this.canUndo = true, 1)
+      setTimeout(() => this.canRedo = false, 1)
+    },
+    redo(){
+      this.task = this.snapshot;
+      this.canRedo = true;
     }
   }
 }
