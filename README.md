@@ -1,8 +1,13 @@
-# notes
+# SPA TaskList
 
 ## Project setup
 ```
 npm install
+```
+
+### Runs server with mock objects
+```
+start /b node server/mockServer.mjs
 ```
 
 ### Compiles and hot-reloads for development
@@ -14,11 +19,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
