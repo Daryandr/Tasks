@@ -4,6 +4,8 @@ import { TASKS } from '@/graphql/tasks'
 import {DEL_TASK} from "@/graphql/delete_task";
 import {EDIT_TASK} from "@/graphql/edit_task";
 import {ADD_TASK} from "@/graphql/add_task";
+import { useCookies } from "vue3-cookies";
+const { cookies } = useCookies();
 
 interface Task{
   title:string,
@@ -43,12 +45,17 @@ export default createStore({
   },
   actions: {
     async fetchTasks({ commit }){
-      try{
-        const response = await apolloClient.query({query:TASKS});
-        commit('setTasks', [...response.data.tasklist.tasks]);
+      if(cookies.isKey('tasks')){
+        commit('setTasks', JSON.parse(cookies.get('tasks')));
       }
-      catch (err){
-        console.log(err);
+      else{
+        try{
+          const response = await apolloClient.query({query:TASKS});
+          commit('setTasks', [...response.data.tasklist.tasks]);
+        }
+        catch (err){
+          console.log(err);
+        }
       }
     },
     async delTask({commit},payload){
@@ -59,6 +66,7 @@ export default createStore({
         console.log(err);
       }
       commit('delTask',payload);
+      cookies.set('tasks',JSON.stringify(this.state.tasks))
     },
     async editTask({commit},payload){
       try{
@@ -68,6 +76,7 @@ export default createStore({
         console.log(err);
       }
       commit('editTask',payload);
+      cookies.set('tasks',JSON.stringify(this.state.tasks))
     },
     async addTask({commit},payload){
       try{
@@ -77,6 +86,7 @@ export default createStore({
         console.log(err);
       }
       commit('addTask',payload);
+      cookies.set('tasks',JSON.stringify(this.state.tasks))
     }
   },
   modules: {
