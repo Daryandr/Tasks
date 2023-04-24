@@ -35,8 +35,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn min-width="40" variant="tonal" @click="undo" :disabled="canUndo"><v-icon icon="mdi-undo"></v-icon></v-btn>
-        <v-btn min-width="40" class="mr-10" variant="tonal" @click="redo" :disabled="canRedo"><v-icon icon="mdi-redo"></v-icon></v-btn>
+        <v-btn min-width="40" variant="tonal" @click="undo" :disabled="!canUndo"><v-icon icon="mdi-undo"></v-icon></v-btn>
+        <v-btn min-width="40" class="mr-10" variant="tonal" @click="redo" :disabled="!canRedo"><v-icon icon="mdi-redo"></v-icon></v-btn>
         <v-btn color="grey" @click="cancel">Отмена</v-btn>
         <v-btn color="primary" type="submit" :loading="loading">Сохранить</v-btn>
       </v-card-actions>
@@ -61,16 +61,16 @@ export default {
   created() {
     if(this.taskData)
       this.task = JSON.parse(JSON.stringify(this.taskData));
-      setTimeout(() => this.canUndo = true, 1)
+    else this.task = {title:'',checklist:[]};
   },
   data () {
     return {
       task: {title:'',checklist:[]},
       isActive: 0,
       loading: false,
-      snapshot: {title:'',checklist:[]},
-      canUndo: true,
-      canRedo: true
+      snapshots: [],
+      historyIndex: -1,
+      history: true
     }
   },
   computed: {
@@ -89,13 +89,20 @@ export default {
     },
     clonedTask(){
       return JSON.parse(JSON.stringify(this.task))
+    },
+    canUndo() {
+      return this.historyIndex > 0
+    },
+    canRedo() {
+      return this.snapshots.length - 1 - this.historyIndex > 0
     }
   },
   watch:{
     clonedTask: function (newVal,oldVal){
-      this.snapshot = oldVal;
-      this.canUndo = false;
-      this.canRedo = true;
+      if(this.history) {
+        this.historyIndex += 1;
+        this.snapshots.splice(this.historyIndex,this.snapshots.length,newVal);
+      }
     }
   },
   methods:{
@@ -120,13 +127,16 @@ export default {
       setTimeout(() => table.scrollTop = table.scrollHeight, 1)
     },
     undo(){
-      this.task = this.snapshot;
-      setTimeout(() => this.canUndo = true, 1)
-      setTimeout(() => this.canRedo = false, 1)
+      this.history = false;
+      this.historyIndex -= 1;
+      this.task = JSON.parse(JSON.stringify(this.snapshots[this.historyIndex]));
+      setTimeout(() => this.history = true, 1)
     },
     redo(){
-      this.task = this.snapshot;
-      this.canRedo = true;
+      this.history = false;
+      this.historyIndex += 1;
+      this.task = JSON.parse(JSON.stringify(this.snapshots[this.historyIndex]));
+      setTimeout(() => this.history = true, 1)
     }
   }
 }
