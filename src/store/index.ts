@@ -44,9 +44,10 @@ export default createStore({
     }
   },
   actions: {
-    async fetchTasks({ commit }){
-      if(cookies.isKey('tasks')){
-        commit('setTasks', JSON.parse(cookies.get('tasks')));
+    async fetchTasks({ commit }) {
+      const tasks = localStorage.getItem('tasks');
+      if(tasks != null) {
+        commit('setTasks', JSON.parse(tasks));
       }
       else{
         try{
@@ -65,8 +66,8 @@ export default createStore({
       catch (err){
         console.log(err);
       }
-      commit('delTask',payload);
-      cookies.set('tasks',JSON.stringify(this.state.tasks))
+      commit('delTask', payload);
+      localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     },
     async editTask({commit},payload){
       try{
@@ -75,8 +76,8 @@ export default createStore({
       catch (err){
         console.log(err);
       }
-      commit('editTask',payload);
-      cookies.set('tasks',JSON.stringify(this.state.tasks))
+      commit('editTask', payload);
+      localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     },
     async addTask({commit},payload){
       try{
@@ -85,8 +86,8 @@ export default createStore({
       catch (err){
         console.log(err);
       }
-      commit('addTask',payload);
-      cookies.set('tasks',JSON.stringify(this.state.tasks))
+      commit('addTask', payload);
+      localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     }
   },
   modules: {
