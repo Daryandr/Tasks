@@ -4,43 +4,29 @@ import { TASKS } from '@/graphql/tasks'
 import {DEL_TASK} from "@/graphql/delete_task";
 import {EDIT_TASK} from "@/graphql/edit_task";
 import {ADD_TASK} from "@/graphql/add_task";
-import { useCookies } from "vue3-cookies";
-const { cookies } = useCookies();
-
-interface Task{
-  title:string,
-  checklist:[Check]
-}
-
-interface Check{
-  name:string,
-  checked:boolean
-}
+import {Task} from "@/types/BasicTypes"
 
 export default createStore({
   state: {
     tasks: [] as Task[]
   },
   getters: {
-    allTasks(state){
-      return state.tasks;
-    },
-    getTask: (state) => (id:number) =>{
-      return state.tasks[id];
+    getTask: (state) => (index: number) => {
+      return state.tasks[index];
     }
   },
   mutations: {
-    setTasks(state, tasklist: Task[]) {
-      state.tasks = tasklist;
+    setTasks(state, taskList: Task[]) {
+      state.tasks = taskList;
     },
-    delTask(state,index:number){
-      state.tasks.splice(index,1);
+    delTask(state, index: number) {
+      state.tasks.splice(index, 1);
     },
-    addTask(state,task:Task){
+    addTask(state, task:Task) {
       state.tasks.unshift(task);
     },
-    editTask(state,payload){
-      state.tasks.splice(payload.idx, 1, payload.task);
+    editTask(state, payload) {
+      state.tasks.splice(payload.taskId, 1, payload.task);
     }
   },
   actions: {
@@ -49,47 +35,45 @@ export default createStore({
       if(tasks != null) {
         commit('setTasks', JSON.parse(tasks));
       }
-      else{
-        try{
-          const response = await apolloClient.query({query:TASKS});
+      else {
+        try {
+          const response = await apolloClient.query({query: TASKS});
           commit('setTasks', [...response.data.tasklist.tasks]);
         }
-        catch (err){
+        catch (err) {
           console.log(err);
         }
       }
     },
-    async delTask({commit},payload){
-      try{
+    async delTask({commit}, payload) {
+      try {
         await apolloClient.mutate({mutation: DEL_TASK,variables: {taskId: payload}});
       }
-      catch (err){
+      catch (err) {
         console.log(err);
       }
       commit('delTask', payload);
       localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     },
-    async editTask({commit},payload){
-      try{
-        await apolloClient.mutate({mutation: EDIT_TASK,variables: {taskId: payload.idx, task: payload.task}});
+    async editTask({commit}, payload) {
+      try {
+        await apolloClient.mutate({mutation: EDIT_TASK,variables: {taskId: payload.taskId, task: payload.task}});
       }
-      catch (err){
+      catch (err) {
         console.log(err);
       }
       commit('editTask', payload);
       localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     },
-    async addTask({commit},payload){
-      try{
+    async addTask({commit}, payload) {
+      try {
         await apolloClient.mutate({mutation: ADD_TASK,variables: {task: payload}});
       }
-      catch (err){
+      catch (err) {
         console.log(err);
       }
       commit('addTask', payload);
       localStorage.setItem('tasks', JSON.stringify(this.state.tasks));
     }
-  },
-  modules: {
   }
 })

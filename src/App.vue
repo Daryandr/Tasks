@@ -1,8 +1,12 @@
 <template>
   <v-app>
     <v-toolbar color="primary-lighten-3" class="flex text-center" dark>
-      <v-toolbar-title class="text-white text-h5 font-weight-regular"> <span class="material-icons">checklist</span> <span>TASK MANAGER</span></v-toolbar-title>
+      <v-toolbar-title class="text-white text-h5 font-weight-regular">
+        <span class="material-icons">checklist</span>
+        <span>TASK MANAGER</span>
+      </v-toolbar-title>
     </v-toolbar>
+
     <TaskList/>
   </v-app>
 </template>
@@ -15,12 +19,7 @@ export default defineComponent({
   name: 'App',
   components: {
     TaskList,
-  },
-
-  data () {
-    return {
-    }
-  },
+  }
 })
 </script>
 <style lang="less">
