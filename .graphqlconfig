@@ -1,5 +1,6 @@
 {
   "name": "notes",
+  "schemaPath": "./graphql/schema.graphql",
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
