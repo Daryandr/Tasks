@@ -1,4 +1,4 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core'
 import config from '@/../config'
 
 // HTTP connection to the API

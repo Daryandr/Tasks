@@ -1,11 +1,11 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import store from './store'
 import vuetify from './plugins/vuetify'
-import { apolloProvider } from './client/ApolloProvider'
+import {apolloProvider} from './client/ApolloProvider'
 
 createApp(App)
-  .use(store)
-  .use(vuetify)
-  .use(apolloProvider)
-  .mount('#app')
+    .use(store)
+    .use(vuetify)
+    .use(apolloProvider)
+    .mount('#app')

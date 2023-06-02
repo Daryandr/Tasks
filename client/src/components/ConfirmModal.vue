@@ -15,15 +15,26 @@
       </v-toolbar>
 
       <v-card-text
-          v-show="!!message"
+          v-if="!!message"
           class="pa-4"
-          v-html="message"
-      />
+      >
+        {{ message }}
+      </v-card-text>
 
       <v-card-actions class="pt-3">
         <v-spacer/>
-        <v-btn color="grey" @click="cancel">Отмена</v-btn>
-        <v-btn color="primary"  @click="agree">OK</v-btn>
+        <v-btn
+            color="grey"
+            @click="cancel"
+        >
+          Отмена
+        </v-btn>
+        <v-btn
+            color="primary"
+            @click="agree"
+        >
+          OK
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
